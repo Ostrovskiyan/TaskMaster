@@ -30,9 +30,8 @@ public class Task implements Serializable {
     @JoinColumn(name = "creator", nullable = false)
 	private User creator;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "groupid", nullable = false)
-	private Group group;
+	@Column(name = "name")
+	private String name;
 	
 	@Column(name = "description")
 	private String description;
@@ -72,11 +71,11 @@ public class Task implements Serializable {
 		this.end = end;
 	}
 
-	public Group getGroup() {
-		return group;
+	public String getName() {
+		return name;
 	}
 
-	public void setGroup(Group group) {
-		this.group = group;
+	public void setName(String name) {
+		this.name = name;
 	}
 }

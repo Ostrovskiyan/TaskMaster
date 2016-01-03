@@ -6,11 +6,15 @@ import com.taskmaster.entity.Task;
 
 
 public interface TaskService {
-	Task addTask(Task Task);
+	Task addTask(Task task);
 
 	void delete(int id);
 
-	Task editTask(Task Task);
+	Task editTask(Task task);
 
 	List<Task> getAll();
+	
+	List<Task> getAllTasksInDay(String regular);
+	
+	List<Integer> getDaysInMonthWithTask(String regular);
 }

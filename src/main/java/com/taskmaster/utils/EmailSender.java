@@ -71,4 +71,10 @@ public class EmailSender {
 				+ "<div style='background-color:#F8F8FF; border:solid 1px black; font-size:20pt; display: inline-block' align='center'>" + confirmingCode + "</div></div>";
 		sendEmail(email, subject, message, COMMON_PRIORITY);
 	}
+	
+	public static void sendNotificationaAboutNewTask(String email, String taskName){
+		String subject = "New task";
+		String message = "<div style='color:#000000'>You got new task "+ taskName + "</div>";
+		sendEmail(email, subject, message, COMMON_PRIORITY);
+	}
 }

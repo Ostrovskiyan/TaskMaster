@@ -159,7 +159,7 @@ input {
 	margin: 5px auto 15px;
 }
 .avatar{
-	width: 500px;
+	width: 470px;
 	height: 470px;
 }
 .avatar_container{
@@ -185,4 +185,20 @@ input {
 }
 .drop_down{
 	width:100pt;
+}
+/*
+	My Tasks page
+*/
+.my-table{
+	background-color: #FFFFFF;
+}
+.day:hover{
+	cursor: pointer;
+	background: #d9edf7;
+}
+.today{
+	background: #ffff99;
+}
+.consist_task{
+	background: #99ff99;
 }

@@ -18,7 +18,44 @@
 <link rel="stylesheet" href="/taskmaster/resources/core/css/bootstrap-responsive.css">
 <link rel="stylesheet" href="/taskmaster/resources/core/css/calendar.css">
 
-<title>Registration</title>
+<title>My tasks</title>
+<script type="text/javascript">
+	function toMonth(year, month){
+		if(year == 0 && month == 0){
+			date = "";
+		} else {
+			//alert(month);
+			month+=2;
+			year += 1900;
+			if(month == 13){
+				month = 1;
+				year++;
+			} else if(month == 0){
+				month = 12;
+				year--;
+			}
+			if(month < 10){
+				month = "0" + month;
+			}
+			date = year + "-" + month + "-00"; 
+		}
+		document.location = "http://localhost:8080/taskmaster/my_tasks?date=" + date;
+	}
+	function taskOfDay(year, month, day){
+		month+=1;
+		year += 1900;
+		if(month < 10){
+			month = "0" + month;
+		}
+		if(day < 10){
+			day = "0" + day;
+		}
+		date = year + "-" + month + "-" + day;
+		document.location = "http://localhost:8080/taskmaster/taskOfDay?date=" + date;
+	}
+</script>
+
+
 </head>
 <body>
 <sec:authorize access="isAuthenticated()">
@@ -40,27 +77,59 @@
   </div>
 </nav>
 </sec:authorize>	
-<div class="container" style="background:#ffffff">
-	<div class="page-header">
-		<div class="pull-right form-inline">
-			<div class="btn-group">
-				<button class="btn btn-primary" data-calendar-nav="prev"><< Prev</button>
-				<button class="btn" data-calendar-nav="today">Today</button>
-				<button class="btn btn-primary" data-calendar-nav="next">Next >></button>
-			</div>
-		</div>
-		<h3 id="year_month"></h3>
+<div class="container info">
+	<div>
+		${now.year + 1900}:${now.month + 1}
 	</div>
-	<br/>
+	<div class="btn-group">
+		<button type="button" class="btn btn-primary" onClick="toMonth(${now.year},${now.month-1})">Prev.</button>
+		<button type="button" class="btn btn-primary" onClick="toMonth(0,0)">Today</button>
+		<button type="button" class="btn btn-primary" onClick="toMonth(${now.year},${now.month+1})">Next</button>
+	</div>	
+	<table class='table table-bordered table-striped my-table'>
+		<tr>
+			<td>Mon</td>
+			<td>Tue</td>
+			<td>Wed</td>
+			<td>Thu</td>
+			<td>Fri</td>
+			<td>Sat</td>
+			<td>Sun</td>
+		</tr>
+		<c:set var="k" value="${1}"/>
 
-	<div class="calendar_container">
-		<div id="calendar"></div>
-	</div>
-	<script type="text/javascript" src="/taskmaster/resources/core/js/calendar/jquery.min.js"></script>
-	<script type="text/javascript" src="/taskmaster/resources/core/js/calendar/underscore-min.js"></script>
-	<script type="text/javascript" src="/taskmaster/resources/core/js/calendar/bootstrap.min.js"></script>
-	<script type="text/javascript" src="/taskmaster/resources/core/js/calendar/calendar.js"></script>
-	<script type="text/javascript" src="/taskmaster/resources/core/js/calendar/app.js"></script>
+		<c:set var="nownow" value="<%=new java.util.Date()%>" />
+		<c:forEach var="i" begin="1" end="5">
+	   		<tr>
+	   		<c:forEach var="i" begin="1" end="7">
+	   			<c:choose>
+	   				<c:when test="${dayOfWeek==1 && k <= days}">
+	   					<td class="day 
+	   						<c:if test="${k==nownow.date && now.year==nownow.year && now.month==nownow.month}">
+	   							today
+	   						</c:if>
+	   						<c:forEach items='${daysWithTask}' var='day'>
+	   							<c:if test="${k==day}">
+	   								consist_task
+	   							</c:if>
+	   						</c:forEach>
+	   						"
+	   					onClick="taskOfDay(${now.year}, ${now.month}, ${k})">${k}</td>
+	   					<c:set var="k" value="${k + 1}" />
+  					</c:when>
+  					<c:when test="${dayOfWeek > 1}">
+  						<td></td>
+  						<c:set var="dayOfWeek" value="${dayOfWeek-1}" />
+  					</c:when>
+  					<c:otherwise>
+						<td></td>
+					</c:otherwise>
+	   			</c:choose>
+	   		</c:forEach>
+	   		</tr>
+		</c:forEach>
+	</table>
+
 </div>
 </body>
 </html>

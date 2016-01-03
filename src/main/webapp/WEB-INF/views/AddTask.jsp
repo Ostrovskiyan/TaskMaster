@@ -14,8 +14,9 @@
 <spring:url value="/resources/core/css/bootstrap.js" var="bootstrapJs" />
 <link href="${bootstrapCss}" rel="stylesheet" type="text/css" />
 <link href="${styleCss}" rel="stylesheet" type="text/css" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script src="${bootstrapJs}" type="text/javascript"></script>
+
 <title>Registration</title>
 <style type="text/css">
 div.inline { float:left; }
@@ -48,10 +49,12 @@ div.inline { float:left; }
 	</nav>
 </sec:authorize>		
 	<div class = "container info" align="left" >
-		<form action="my_tasks">
+		<form action="add_task" method="POST">
 			<h2>Add task</h2>
 			<br/>
-			<h4><b>Date: </b>${day}</h4>
+			<h4><b>Date: </b>
+				<input name="date" type="date"/>
+			</h4>
 			<h4><b>Responsible: </b><span id="responsible">Alik Ostrovskiy<span></h4>
 			<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Change responsible </button>
 			<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
@@ -86,13 +89,13 @@ div.inline { float:left; }
 				
 
 			<div class="form-group">
-	            <input name="name" type="text" class="form-control input-addtask"  placeholder="Task name" />
+	            <input name="name" type="text" class="form-control input-addtask"  placeholder="Task name" requiered/>
 	        </div>
 	        <div class="form-group">
-			<textarea class="form-control input-addtask" name="description" rows="6" cols="50" placeholder="Task description"></textarea>
+			<textarea class="form-control input-addtask" name="description" rows="6" cols="50" placeholder="Task description" requiered></textarea>
 			</div>
 			<div class="form-group">
-				<input name="submit" type="submit" class="btn btn-primary input-signin" value="Add task"/>
+				<input type="submit" class="btn btn-primary input-signin" value="Add task"/>
 			</div>
 		</form>
 	</div>
