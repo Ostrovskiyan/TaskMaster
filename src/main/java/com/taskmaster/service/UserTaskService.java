@@ -6,11 +6,11 @@ import com.taskmaster.entity.UserTask;
 
 public interface UserTaskService {
 	
-	UserTask addUserTask(UserTask UserTask);
+	UserTask addUserTask(UserTask userTask);
 
 	void delete(int id);
 
-	UserTask editUserTask(UserTask UserTask);
+	UserTask editUserTask(UserTask userTask);
 
 	List<UserTask> getAll();
 	

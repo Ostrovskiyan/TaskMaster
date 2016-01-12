@@ -11,11 +11,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <spring:url value="/resources/core/css/bootstrap.css" var="bootstrapCss" />
 <spring:url value="/resources/core/css/style.css" var="styleCss" />
-<spring:url value="/resources/core/css/bootstrap.js" var="bootstrapJs" />
+<spring:url value="/resources/core/js/bootstrap.js" var="bootstrapJs" />
+
 <link href="${bootstrapCss}" rel="stylesheet" type="text/css" />
 <link href="${styleCss}" rel="stylesheet" type="text/css" />
 
-<script src="${bootstrapJs}" type="text/javascript"></script>
+
+
+<style type="text/css">
+	body {
+  		padding-top: 40px;
+ 		 background-color: #eee;
+	}
+</style>
 
 <title>Registration</title>
 <style type="text/css">
@@ -29,26 +37,29 @@ div.inline { float:left; }
 </script>
 </head>
 <body>
-<sec:authorize access="isAuthenticated()">
-	<nav class="navbar navbar-default navbar-fixed-top">
-	  <div class="container">
-	        <ul class="nav navbar-nav">
-		        <li><a style="padding:0" href="<c:url value='/' />"><img class = "cover" src = "/taskmaster/resources/core/images/logo.png" /></a></li>
-		        <li><a href="<c:url value='/my_page' />" role="button">My Page</a></li>
-		        <li><a href="<c:url value='/my_tasks' />" role="button">My Tasks</a></li>
-		        <li><a href="<c:url value='/my_groups' />" role="button">My Groups</a></li>
-		        <li><a href="<c:url value='/settings' />">Settings</a></li>
-	        </ul>
-		<div class = "navbar-right">
-		<p>
-			<sec:authentication property="principal.username" />
-		</p>
-			<a href="<c:url value="/logout" />" role="button">Sign out</a>
-		</div>
-	  </div>
-	</nav>
-</sec:authorize>		
-	<div class = "container info" align="left" >
+		<sec:authorize access="isAuthenticated()">
+		<nav class="navbar navbar-default navbar-fixed-top">
+		  <div class="container">
+		        <ul class="nav navbar-nav">
+			        <li><a style="padding:0" href="<c:url value='/' />"><img class = "cover" src = "/taskmaster/resources/core/images/logo.png" /></a></li>
+			        <li><a href="<c:url value='/my_page' />" role="button">My Page</a></li>
+			        <li><a href="<c:url value='/my_tasks' />" role="button">My Tasks</a></li>
+			        <li><a href="<c:url value='/my_groups' />" role="button">My Groups</a></li>
+			        <li><a href="<c:url value='/settings' />">Settings</a></li>
+		        </ul>
+			<div class = "navbar-right">
+			<p>
+				<sec:authentication property="principal.username" />
+			</p>
+				<a href="<c:url value="/logout" />" role="button">Sign out</a>
+			</div>
+		  </div>
+		</nav>
+		</sec:authorize>
+
+
+		<div class = "container info" align="left" >
+
 		<form action="add_task" method="POST">
 			<h2>Add task</h2>
 			<br/>

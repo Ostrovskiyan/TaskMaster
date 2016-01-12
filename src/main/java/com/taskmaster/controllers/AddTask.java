@@ -3,9 +3,11 @@ package com.taskmaster.controllers;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.taskmaster.entity.Task;
 import com.taskmaster.entity.User;
+import com.taskmaster.entity.UserTask;
 import com.taskmaster.service.TaskService;
 import com.taskmaster.service.UserService;
+import com.taskmaster.service.UserTaskService;
 import com.taskmaster.utils.EmailSender;
 
 @Controller
@@ -31,6 +35,9 @@ public class AddTask {
 	
 	@Autowired
 	TaskService taskService;
+	
+	@Autowired
+	UserTaskService userTaskService;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String viewLogin(HttpServletRequest request, Map<String, Object> model) {
@@ -61,9 +68,22 @@ public class AddTask {
 		task.setCreator(user);
 		task.setEnd(date);
 		
-		taskService.addTask(task);
+		Random rnd = new Random(Calendar.getInstance().getTimeInMillis());
+		task.setId(rnd.nextInt(Integer.MAX_VALUE));
+		/*try{
+			taskService.addTask(task);
+		} catch (Exception ex){
+			System.out.println("Such id alredy used");
+			task.setId(rnd.nextInt(Integer.MAX_VALUE));
+			taskService.addTask(task);
+		}*/
 		
 		EmailSender.sendNotificationaAboutNewTask(user.getLogin(), name);
+		
+		UserTask userTask = new UserTask();
+		userTask.setTask(task);
+		userTask.setUser(user);
+		userTaskService.addUserTask(userTask);
 		
 		return "redirect:my_tasks";
 	}

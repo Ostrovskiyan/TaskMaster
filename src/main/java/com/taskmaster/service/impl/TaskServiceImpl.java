@@ -34,13 +34,18 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<Task> getAllTasksInDay(String regular) {
-		return taskRepository.findAllTaskInDay(regular);
+	public List<Task> getAllTasksInDay(String regular, Integer userid) {
+		return taskRepository.findAllTaskInDay(regular, userid);
 	}
 
 	@Override
-	public List<Integer> getDaysInMonthWithTask(String regular) {
-		return taskRepository.findDaysInMonthWithTask(regular);
+	public List<Integer> getDaysInMonthWithTask(String regular, Integer userid) {
+		return taskRepository.findDaysInMonthWithTask(regular, userid);
+	}
+
+	@Override
+	public List<Task> getAllTasksCreatedInDay(String regular, Integer userid) {
+		return taskRepository.findAllTaskCreatedInDay(regular, userid);
 	}
 
 }

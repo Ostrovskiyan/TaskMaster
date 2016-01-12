@@ -39,12 +39,30 @@
 </nav>
 </sec:authorize>	
 <div class = "container info" align="center">
-	${tasks}
 	<div>
 		<h1><fmt:formatDate type="date" value="${date}" /></h1>
 	</div>
 	<div>
-		<h2>My tasks</h2>
+		<h2>Tasks assigned to me:</h2>
+		<c:forEach items='${tasks}' var='task'>
+	   		<div class="panel panel-primary user_desc">
+				<div class="panel-heading"> <h3 class="panel-title">${task.name}</h3> </div>
+				<div class="panel-body"> 
+					<div> ${task.description}</div>
+				</div>
+			</div>
+	   	</c:forEach>
+	</div>
+	<div>
+		<h2>Tasks created by me:</h2>
+		<c:forEach items='${createdTasks}' var='task'>
+	   		<div class="panel panel-primary user_desc">
+				<div class="panel-heading"> <h3 class="panel-title">${task.name}</h3> </div>
+				<div class="panel-body"> 
+					<div> ${task.description}</div>
+				</div>
+			</div>
+	   	</c:forEach>
 	</div>
 	<div>
 		<form action="add_task">

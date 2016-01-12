@@ -36,7 +36,7 @@ public class User implements Serializable {
 	@Column(name = "activated")
 	private Boolean activated;
 
-	public Integer getIdParent() {
+	public Integer getId() {
 		return id;
 	}
 

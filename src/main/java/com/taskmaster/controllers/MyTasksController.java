@@ -12,11 +12,15 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.taskmaster.entity.User;
 import com.taskmaster.service.TaskService;
+import com.taskmaster.service.UserService;
 
 @Controller
 @RequestMapping(value = "/my_tasks")
@@ -25,8 +29,15 @@ public class MyTasksController {
 	@Autowired
 	TaskService taskService;
 	
+	@Autowired
+	UserService userService;
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public String viewLogin(HttpServletRequest request, Map<String, Object> model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String login = auth.getName();
+		User user = userService.getByLogin(login);
+		
 		String dateString = request.getParameter("date");
 		Date date;
 		if(dateString == null || dateString.equals("")){
@@ -52,15 +63,15 @@ public class MyTasksController {
 		model.put("dayOfWeek", dayOfWeek);
 		model.put("days", days);
 		model.put("now", calendar.getTime());
-		model.put("daysWithTask", getDaysWithTask(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1));
+		model.put("daysWithTask", getDaysWithTask(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, user));
 		return "MyTasks";
 	}
 	
-	private List<Integer> getDaysWithTask(Integer year, Integer month){
+	private List<Integer> getDaysWithTask(Integer year, Integer month, User user){
 		if(month > 9){
-			return taskService.getDaysInMonthWithTask(year.toString() + "-" + month.toString() + "%");
+			return taskService.getDaysInMonthWithTask(year.toString() + "-" + month.toString() + "%", user.getId());
 		} else {
-			return taskService.getDaysInMonthWithTask(year.toString() + "-0" + month.toString() + "%");
+			return taskService.getDaysInMonthWithTask(year.toString() + "-0" + month.toString() + "%", user.getId());
 		}
 	}
 }

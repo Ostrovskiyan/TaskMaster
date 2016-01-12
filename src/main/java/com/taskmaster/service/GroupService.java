@@ -6,11 +6,11 @@ import com.taskmaster.entity.Group;
 
 
 public interface GroupService {
-	Group addGroup(Group Group);
+	Group addGroup(Group group);
 
 	void delete(int id);
 
-	Group editGroup(Group Group);
+	Group editGroup(Group group);
 
 	List<Group> getAll();
 }

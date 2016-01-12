@@ -14,7 +14,9 @@ public interface TaskService {
 
 	List<Task> getAll();
 	
-	List<Task> getAllTasksInDay(String regular);
+	List<Task> getAllTasksInDay(String regular, Integer userid);
 	
-	List<Integer> getDaysInMonthWithTask(String regular);
+	List<Task> getAllTasksCreatedInDay(String regular, Integer userid);
+	
+	List<Integer> getDaysInMonthWithTask(String regular, Integer userid);
 }
