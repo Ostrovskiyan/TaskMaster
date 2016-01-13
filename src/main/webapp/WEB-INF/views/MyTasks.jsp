@@ -40,7 +40,7 @@
 			}
 			date = year + "-" + month + "-00"; 
 		}
-		document.location = "http://localhost:8080/taskmaster/my_tasks?date=" + date;
+		document.location = "/taskmaster/my_tasks?date=" + date;
 	}
 	function taskOfDay(year, month, day){
 		month+=1;
@@ -52,7 +52,7 @@
 			day = "0" + day;
 		}
 		date = year + "-" + month + "-" + day;
-		document.location = "http://localhost:8080/taskmaster/taskOfDay?date=" + date;
+		document.location = "/taskmaster/taskOfDay?date=" + date;
 	}
 </script>
 

@@ -33,4 +33,19 @@ public class GroupServiceImpl implements GroupService {
 		return groupRepository.findAll();
 	}
 
+	@Override
+	public List<Group> getAllGroupsOfUser(Integer id) {
+		return groupRepository.findAllTasksOfUser(id);
+	}
+
+	@Override
+	public List<Group> getSimilarGroups(String partOfGroupName, Integer userid) {
+		return groupRepository.findSimilarGroups('%' + partOfGroupName + '%', userid);
+	}
+
+	@Override
+	public Group getById(Integer id) {
+		return groupRepository.findById(id);
+	}
+
 }

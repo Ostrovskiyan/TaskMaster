@@ -11,8 +11,7 @@
     left: 0;
 }
 body, html {
-	height:95%; margin:0;
-}
+	height:95%; margin:0;}
 .container{
    min-height: 100%;
    position: relative;
@@ -81,7 +80,6 @@ body {
 
 .btn {
 	margin-bottom:10px;
-	margin-top: 10px;
 }
 
 .form-signin .form-signup {
@@ -137,10 +135,6 @@ body {
 	margin-bottom: 10px;
 }
 
-.col-md-6 {
-	padding-top: 10%;
-}
-
 .registration {
 	margin-left: 30%;
 	width: 900px;
@@ -162,6 +156,10 @@ input {
 	width: 470px;
 	height: 470px;
 }
+.avatar-edit-profile{
+	width: 353px;
+	height: 353px;
+}
 .avatar_container{
 	margin-left: 3%;
 	position: absolute;
@@ -180,6 +178,7 @@ input {
 	font-size: 40pt;
 	width: 65%;
 	margin: 0pt;
+	padding-left: 5px; 
 }
 .calendar_container{
 }
@@ -204,4 +203,7 @@ input {
 }
 .default{
 	all:inital;
+}
+.avatar-create-group{
+	width:100pt;
 }

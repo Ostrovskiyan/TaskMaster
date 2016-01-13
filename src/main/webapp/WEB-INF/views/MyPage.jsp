@@ -15,7 +15,12 @@
 <link href="${bootstrapCss}" rel="stylesheet" type="text/css" />
 <link href="${styleCss}" rel="stylesheet" type="text/css" />
 
-<title>Registration</title>
+<title>My page</title>
+<style type="text/css">
+	html{
+		overflow:  hidden;
+	}
+</style>
 </head>
 <body>
 <sec:authorize access="isAuthenticated()">
@@ -37,25 +42,44 @@
 	  </div>
 	</nav>
 </sec:authorize>
-	<div align="left" class="info avatar_container"><img class="avatar" border="4" src = "/taskmaster/resources/core/images/ava.jpg" /></div>			
+	<div align="left" class="info avatar_container">
+		<div>
+			<c:choose>
+			  <c:when test="${user.avatar != null}">
+			    <spring:url value="${user.avatar}" var="imageUser" />
+			    <img class="avatar" border="4" src="${imageUser}" />
+			  </c:when>
+			  <c:otherwise>
+			    <img class="avatar" border="4" src = "/taskmaster/resources/core/images/ava.jpg" />
+			  </c:otherwise>
+			</c:choose>	
+		</div>
+		<br/>
+		<a href="<c:url value='/edit_profile' />" style="width:150pt; margin-left:150px" class="btn btn-primary">Edit profile</a>
+	</div>			
 	<div class = "container info my_page_info" align="left" >
-		<div class="my_name bg-primary">Ostrovskiy Albert</div>
+		<div class="my_name bg-primary">${user.name}</div>
 		<br/>
 		<div class="panel panel-primary user_desc">
 			<div class="panel-heading"> <h3 class="panel-title">Contacts</h3> </div>
-			<div class="panel-body"> 
-				<div> <b>Email</b> : ostrovskiyan15@gmail.com </div>
-				<div> <b>Skype</b> : summerayliko </div>
-				<div> <b>Mobile phone</b> : +380909825520 </div>
+			<div class="panel-body">
+				<div> <b>Email</b> : ${user.login} </div>
+				<c:if test="${user.skype != null}">
+				   <div> <b>Skype</b> : ${user.skype} </div>
+				</c:if>
+				<c:if test="${user.phone != null}">
+				   <div> <b>Mobile phone</b> : ${user.phone} </div>
+				</c:if>
 			</div>
 		</div>
-		<div class="panel panel-primary user_desc about_me" >
-			<div class="panel-heading"> <h3 class="panel-title">About me</h3> </div>
-			<div class="panel-body"> 
-				<div>Hello,</div>
-				<div>My name is Alik. And i think that I am software programmer. =)</div>
+		<c:if test="${user.aboutMe != null}">
+			<div class="panel panel-primary user_desc about_me" >
+				<div class="panel-heading"> <h3 class="panel-title">About me</h3> </div>
+				<div class="panel-body" > 
+					<div style="white-space: pre;">${user.aboutMe}</div>
+				</div>
 			</div>
-		</div>
+		</c:if>
 	</div>
 </body>
 </html>

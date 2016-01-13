@@ -30,6 +30,18 @@ public class User implements Serializable {
 	@Column(name = "password")
 	private String password;
 	
+	@Column(name = "skype")
+	private String skype;
+	
+	@Column(name = "phone")
+	private String phone;
+	
+	@Column(name = "about_me")
+	private String aboutMe;
+	
+	@Column(name = "avatar")
+	private String avatar;
+	
 	@Column(name = "hash")
 	private String hash;
 	
@@ -83,5 +95,36 @@ public class User implements Serializable {
 	public void setActivated(Boolean activated) {
 		this.activated = activated;
 	}
+	
+	public String getSkype() {
+		return skype;
+	}
 
+	public void setSkype(String skype) {
+		this.skype = skype;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getAboutMe() {
+		return aboutMe;
+	}
+
+	public void setAboutMe(String aboutMe) {
+		this.aboutMe = aboutMe;
+	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
 }

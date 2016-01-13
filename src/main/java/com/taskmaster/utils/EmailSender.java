@@ -74,7 +74,19 @@ public class EmailSender {
 	
 	public static void sendNotificationaAboutNewTask(String email, String taskName){
 		String subject = "New task";
-		String message = "<div style='color:#000000'>You got new task "+ taskName + "</div>";
+		String message = "<div style='color:#000000'>You got new task \""+ taskName + "\"</div>";
+		sendEmail(email, subject, message, COMMON_PRIORITY);
+	}
+	
+	public static void sendNotificationaAboutTaskCanceling(String email, String taskName, String nameWhoCancel){
+		String subject = "You task canceled";
+		String message = "<div style='color:#000000'>Your task \""+ taskName + "\" is canceled by " + nameWhoCancel+ "</div>";
+		sendEmail(email, subject, message, COMMON_PRIORITY);
+	}
+	
+	public static void sendNotificationaAboutTaskDone(String email, String taskName, String nameWhoCancel){
+		String subject = "You task canceled";
+		String message = "<div style='color:#000000'>Your task \""+ taskName + "\" is finished by " + nameWhoCancel+ "</div>";
 		sendEmail(email, subject, message, COMMON_PRIORITY);
 	}
 }

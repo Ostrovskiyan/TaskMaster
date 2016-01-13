@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.taskmaster.entity.Group;
 import com.taskmaster.entity.User;
 import com.taskmaster.repository.UserRepository;
 import com.taskmaster.secure.Sha512Encoder;
@@ -37,6 +38,11 @@ public class UserServiceImpl implements UserService {
 
 	public List<User> getAll() {
 		return userRepository.findAll();
+	}
+
+	@Override
+	public List<User> getAllUserOfGroup(Group group) {
+		return userRepository.findAllUsersInGroup(group.getId());
 	}
 
 }

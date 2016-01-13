@@ -18,30 +18,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.ServletContextAware;
 
-import com.taskmaster.entity.Group;
 import com.taskmaster.entity.User;
-import com.taskmaster.entity.UserGroup;
-import com.taskmaster.service.UserGroupService;
 import com.taskmaster.service.UserService;
 
 @Controller
-@RequestMapping(value = "/create_group")
-public class CreateGroupController implements ServletContextAware{
+@RequestMapping(value = "/edit_profile")
+public class EditProfileController implements ServletContextAware{
 	
 	private final String DIRECTORY_CHILD_AVATARS = File.separator + "resources" + File.separator + "core"
-			+ File.separator + "images" + File.separator + "group_avatars";
+			+ File.separator + "images" + File.separator + "avatars";
 
 	private ServletContext context;
+
 	
 	@Autowired
 	UserService userService;
 	
-	@Autowired
-	UserGroupService userGroupService;
-	
 	@RequestMapping(method = RequestMethod.GET)
 	public String doGet(HttpServletRequest request, Map<String, Object> model) {
-		return "CreateGroup";
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String login = auth.getName();
+		User user = userService.getByLogin(login);
+		model.put("user", user);
+		return "EditProfile";
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
@@ -50,11 +49,11 @@ public class CreateGroupController implements ServletContextAware{
 		String login = auth.getName();
 		User user = userService.getByLogin(login);
 		
-		String groupName = null;
-		String groupDescription= null;
+		String phone = null;
+		String name = null;
+		String skype = null;
+		String aboutMe = null;
 		FileItem avatar = null;
-		Group group = new Group();
-		
 		if (ServletFileUpload.isMultipartContent(request)) {
 			try {
 				@SuppressWarnings("unchecked")
@@ -62,11 +61,17 @@ public class CreateGroupController implements ServletContextAware{
 				for (FileItem item : multiparts) {
 					if (item.isFormField()) {
 						switch(item.getFieldName()){
-							case "name":
-								groupName = item.getString();
+							case "phone":
+								phone = item.getString();
 								break;
-							case "description":
-								groupDescription = item.getString();
+							case "name":
+								name = item.getString();
+								break;
+							case "skype":
+								skype = item.getString();
+								break;
+							case "about_me":
+								aboutMe = item.getString();
 								break;
 						}
 					} else if(item.getFieldName().equals("avatar") && item.getSize() > 0) {
@@ -81,31 +86,30 @@ public class CreateGroupController implements ServletContextAware{
 		if (avatar != null) {
 			try {
 				File directory = new File(
-						context.getRealPath("") + DIRECTORY_CHILD_AVATARS + File.separator + groupName);
+						context.getRealPath("") + DIRECTORY_CHILD_AVATARS + File.separator + login);
 				if (!directory.exists()) {
 					directory.mkdirs();
 				}
 				String fileExtension = '.' + avatar.getName().split("\\.")[avatar.getName().split("\\.").length - 1];
-				String filePath = DIRECTORY_CHILD_AVATARS + File.separator + groupName + File.separator + groupName
+				String filePath = DIRECTORY_CHILD_AVATARS + File.separator + login + File.separator + login
 						+ fileExtension;
 				File oldFile = new File(context.getRealPath("") + filePath);
 				oldFile.delete();
 				avatar.write(new File(context.getRealPath("") + filePath));
-				group.setAvatar(filePath.replace(File.separatorChar, '/'));
+				user.setAvatar(filePath.replace(File.separatorChar, '/'));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		
-		group.setDescription(groupDescription);
-		group.setName(groupName);
+		user.setName(name);
+		user.setSkype(skype);
+		user.setPhone(phone);
+		user.setAboutMe(aboutMe);
 		
-		UserGroup userGroup = new UserGroup();
-		userGroup.setGroup(group);
-		userGroup.setUser(user);
-		userGroupService.addUserGroup(userGroup);
+		userService.editUser(user);
 		
-		return "redirect:my_groups";
+		return "redirect:my_page";
 	}
 	
 	@Override

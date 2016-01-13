@@ -12,11 +12,14 @@
 <spring:url value="/resources/core/css/bootstrap.css" var="bootstrapCss" />
 <spring:url value="/resources/core/css/style.css" var="styleCss" />
 <spring:url value="/resources/core/js/bootstrap.js" var="bootstrapJs" />
+<spring:url value="/resources/core/js/jquery-2.1.4.js" var="jquery" />
 
 <link href="${bootstrapCss}" rel="stylesheet" type="text/css" />
 <link href="${styleCss}" rel="stylesheet" type="text/css" />
 
+<script src="${jquery}" type="text/javascript"></script>
 
+<script src="${bootstrapJs}"></script>
 
 <style type="text/css">
 	body {
@@ -25,14 +28,33 @@
 	}
 </style>
 
-<title>Registration</title>
+<title>Add task</title>
 <style type="text/css">
 div.inline { float:left; }
 .clearBoth { clear:both; }
 </style>
 <script type="text/javascript">
+	var lastSelectedSelect;
+	var userLogin;
+	var userName;
+	
 	function changeResponsible(name){
 		document.getElementById("responsible").innerHTML = name;
+	}
+	function groupChanged(){
+		var groupsSelect = document.getElementById("groups");
+		lastSelectedSelect.style.display = "none";
+		lastSelectedSelect = document.getElementById(groupsSelect.options[groupsSelect.selectedIndex].value + "Select");
+		
+		lastSelectedSelect.style.display = "block";
+	}
+	function responsibleChanged(){
+		document.getElementById("responsible").innerHTML = lastSelectedSelect.options[lastSelectedSelect.selectedIndex].innerHTML;
+		document.getElementById("responsibleLogin").value = lastSelectedSelect.options[lastSelectedSelect.selectedIndex].value;
+	}
+	function makeMeResponsible(){
+		document.getElementById("responsible").innerHTML = userName;
+		document.getElementById("responsibleLogin").value = userLogin;
 	}
 </script>
 </head>
@@ -64,41 +86,60 @@ div.inline { float:left; }
 			<h2>Add task</h2>
 			<br/>
 			<h4><b>Date: </b>
-				<input name="date" type="date"/>
+				<input name="date" type="datetime-local"/>
 			</h4>
-			<h4><b>Responsible: </b><span id="responsible">Alik Ostrovskiy<span></h4>
-			<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Change responsible </button>
-			<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-				<div class="modal-dialog modal-lg">
-					<div class="modal-content">
-					
-						<div class="dropdown inline">
-							<button class="btn btn-primary drop_down" type="button" data-toggle="dropdown" onclick="changeResponsible('Alik Ostrovskiy')">Me</button>
-						</div>
-						<div class="dropdown inline">
-							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Group2
-								<span class="caret"></span></button>
-								<ul class="dropdown-menu">
-									<li><a href="#" onclick="changeResponsible('Olegov Oleg')">Olegov Oleg</a></li>
-									<li><a href="#" onclick="changeResponsible('Nikolaev Nikolay')">Nikolaev Nikolay</a></li>
-									<li><a href="#" onclick="changeResponsible('Aleksandrov Aleksandr')">Aleksandrov Aleksandr</a></li>
-								</ul>
-						</div>
-						<div class="dropdown inline">
-							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Group3
-								<span class="caret"></span></button>
-								<ul class="dropdown-menu">
-									<li><a href="#">Leonidov Leonid</a></li>
-									<li><a href="#">Evgeniev Evgeniy</a></li>
-									<li><a href="#">Borisov Boris</a></li>
-								</ul>
-						</div>
-					
-					</div>
-				</div>
-			</div>
-				
-
+			<h4><b>Responsible: </b><span id="responsible">${user.name}<span></h4>
+			<input id="responsibleLogin" name="responsibleLogin" type="hidden" value=${user.login}/>
+			<script type="text/javascript">userLogin = ${user.login}; userName = ${user.name};</script>
+			
+			  <!-- Trigger the modal with a button -->
+			  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Change responsible</button>
+			
+			  <!-- Modal -->
+			  <div class="modal fade" id="myModal" role="dialog">
+			    <div class="modal-dialog modal-lg">
+			      <div class="modal-content">
+			        <div class="modal-header">
+			          <button type="button" class="close" data-dismiss="modal">&times;</button>
+			          <h4 class="modal-title">Select responsible</h4>
+			        </div>
+			        <div class="modal-body">
+			          <p>
+			          	<div class="form-group">
+			          		<label>Your groups:</label>
+				          	<select id="groups" class = "form-control" id="dateSelect" onchange = "groupChanged()">
+				          		<c:forEach items="${groupMembersList}" var="groupMembers">
+				          			<option value="${groupMembers.group.name}" >${groupMembers.group.name}</option>
+				          		</c:forEach>
+				          	</select>
+				        </div>
+			          	<c:set var="flag" value="false"></c:set>
+			          	<div class="form-group">
+			          		<label>Members of group:</label>
+				          	<c:forEach items="${groupMembersList}" var="groupMembers">
+					          		<select id='${groupMembers.group.name}Select' class = "form-control" id="dateSelect" onchange = "responsibleChanged()" 
+					          			<c:if test="${flag}">
+					          				style="display:none"
+					          			</c:if>
+					          			>
+						          		<c:forEach items="${groupMembers.userList}" var="userInGroup">
+						          			<option value="${userInGroup.login}">${userInGroup.name}</option>
+						          		</c:forEach>
+						          		<c:if test="${!flag}">
+						          			<script type="text/javascript">
+						          				lastSelectedSelect = document.getElementById('${groupMembers.group.name}Select');
+											</script>
+										</c:if>
+					          		</select>
+					          		<c:set var="flag" value="true"></c:set>
+				          	</c:forEach>
+			          	</div>
+			          </p>
+			        </div>
+			      </div>
+			    </div>
+			  </div>
+			  
 			<div class="form-group">
 	            <input name="name" type="text" class="form-control input-addtask"  placeholder="Task name" requiered/>
 	        </div>

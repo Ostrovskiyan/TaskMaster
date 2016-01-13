@@ -20,4 +20,7 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
 	
 	@Query(value = "select b.* from Task b where b.end like :yearmonthday AND b.creator = :userid", nativeQuery=true)
 	List<Task> findAllTaskCreatedInDay(@Param("yearmonthday") String yearmonthday, @Param("userid") Integer userid);
+	
+	@Query(value = "select b.* from Task b where b.id=:id", nativeQuery=true)
+	Task findById(@Param("id") Integer id);
 }

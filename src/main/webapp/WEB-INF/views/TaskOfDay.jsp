@@ -16,7 +16,7 @@
 <link href="${bootstrapCss}" rel="stylesheet" type="text/css" />
 <link href="${styleCss}" rel="stylesheet" type="text/css" />
 
-<title>Registration</title>
+<title>My task on day</title>
 </head>
 <body>
 <sec:authorize access="isAuthenticated()">
@@ -45,10 +45,34 @@
 	<div>
 		<h2>Tasks assigned to me:</h2>
 		<c:forEach items='${tasks}' var='task'>
-	   		<div class="panel panel-primary user_desc">
-				<div class="panel-heading"> <h3 class="panel-title">${task.name}</h3> </div>
-				<div class="panel-body"> 
-					<div> ${task.description}</div>
+	   		<div
+		   		<c:choose>
+				  <c:when test="${task.status=='done'}">
+				  	class="panel panel-success user_desc"
+				  </c:when>
+				  <c:when test="${task.status=='cancel'}">
+				  	class="panel panel-danger user_desc"
+				  </c:when>
+				  <c:otherwise>
+				    class="panel panel-primary user_desc"
+				  </c:otherwise>
+				</c:choose> 
+	   		>
+				<div class="panel-heading" align="left"> 
+					<h3 class="panel-title">${task.name}</h3>
+				</div>
+				<div class="panel-body" align="left"> 
+					<div style="float:left"> ${task.description}</div>
+					<c:if test="${task.status=='progress'}">					     
+						<form action="finish_task" style="float:right" method="post">
+							<input type="hidden" name="task_id" value="${task.id}" />
+							<input type="submit" class="btn btn-success" value="Task is done"/>
+						</form>
+						<form action="cancel_task" style="margin-left:100%;float:right" method="post">
+							<input type="hidden" name="task_id" value="${task.id}" />
+							<input type="submit" class="btn btn-danger" value="Cancel task"/>
+						</form>
+					</c:if>
 				</div>
 			</div>
 	   	</c:forEach>
@@ -56,9 +80,20 @@
 	<div>
 		<h2>Tasks created by me:</h2>
 		<c:forEach items='${createdTasks}' var='task'>
-	   		<div class="panel panel-primary user_desc">
-				<div class="panel-heading"> <h3 class="panel-title">${task.name}</h3> </div>
-				<div class="panel-body"> 
+	   		<div <c:choose>
+				  <c:when test="${task.status=='done'}">
+				  	class="panel panel-success user_desc"
+				  </c:when>
+				  <c:when test="${task.status=='cancel'}">
+				  	class="panel panel-danger user_desc"
+				  </c:when>
+				  <c:otherwise>
+				    class="panel panel-primary user_desc"
+				  </c:otherwise>
+				</c:choose>
+			>
+				<div class="panel-heading" align="left"> <h3 class="panel-title">${task.name}</h3> </div>
+				<div class="panel-body" align="left"> 
 					<div> ${task.description}</div>
 				</div>
 			</div>

@@ -48,4 +48,9 @@ public class TaskServiceImpl implements TaskService {
 		return taskRepository.findAllTaskCreatedInDay(regular, userid);
 	}
 
+	@Override
+	public Task getById(Integer id) {
+		return taskRepository.findById(id);
+	}
+
 }

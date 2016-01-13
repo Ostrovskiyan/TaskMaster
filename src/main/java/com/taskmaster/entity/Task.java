@@ -35,7 +35,10 @@ public class Task implements Serializable {
 	
 	@Column(name = "description")
 	private String description;
-
+	
+	@Column(name = "status")
+	private String status;
+	
 	@Column(name = "end")
 	private Date end;
 
@@ -77,5 +80,13 @@ public class Task implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }

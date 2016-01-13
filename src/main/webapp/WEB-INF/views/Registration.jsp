@@ -33,7 +33,6 @@
                  <input placeholder = "Confirm password" type="password" id="confirm_password" required="required" class = "form-control" />
                  <div id="confirm_password_remark"></div>
                  <form:input path="name" placeholder = "Username" required="required" pattern="[A-Za-z0-9][A-Za-z0-9 ]{4,16}" class = "form-control"/>
-                 <div class="g-recaptcha" data-sitekey="6LcMHBMTAAAAAOIHLjpQ1K0P73zUHbTODCDk7SAL"></div>
                  <button type="submit" value="Register" class = "btn btn-lg btn-success btn-block"> Sign up </button>
         </form:form>
            <a href="<c:url value="/" />">Back</a>

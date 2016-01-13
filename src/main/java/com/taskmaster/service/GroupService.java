@@ -11,6 +11,12 @@ public interface GroupService {
 	void delete(int id);
 
 	Group editGroup(Group group);
+	
+	Group getById(Integer id);
 
 	List<Group> getAll();
+	
+	List<Group> getAllGroupsOfUser(Integer id);
+	
+	List<Group> getSimilarGroups(String partOfGroupName, Integer userid);
 }

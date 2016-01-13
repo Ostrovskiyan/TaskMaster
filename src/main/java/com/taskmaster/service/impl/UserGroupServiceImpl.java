@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.taskmaster.entity.Group;
+import com.taskmaster.entity.User;
 import com.taskmaster.entity.UserGroup;
 import com.taskmaster.repository.UserGroupRepository;
 import com.taskmaster.service.UserGroupService;
@@ -32,6 +34,11 @@ public class UserGroupServiceImpl implements UserGroupService {
 
 	public List<UserGroup> getAll() {
 		return userGroupRepository.findAll();
+	}
+
+	@Override
+	public void userLeftGroup(User user, Group group) {
+		userGroupRepository.leftFromGroup(user.getId(), group.getId());
 	}
 
 

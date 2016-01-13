@@ -26,7 +26,10 @@ public class Group implements Serializable {
 	
 	@Column(name = "description")
 	private String description;
-
+	
+	@Column(name = "avatar")
+	private String avatar;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -49,6 +52,14 @@ public class Group implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 
 }
